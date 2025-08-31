@@ -1,0 +1,88 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data/dev.db"
+}
+
+model Topic {
+  id            String      @id
+  title         String
+  description   String
+  difficulty    String      // 'easy' | 'medium' | 'hard'
+  estimatedTime String
+  algorithms    Algorithm[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("topics")
+}
+
+model Algorithm {
+  id              String           @id
+  title           String
+  difficulty      String          // 'easy' | 'medium' | 'hard'
+  timeComplexity  String
+  spaceComplexity String
+  category        String
+  problemsSolved  Json            // string[] - problems this algorithm solves
+  articleContent  Json            // Article object with overview, algorithm, implementation, etc.
+  topicId         String
+  topic           Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  personalNotes   PersonalNote?
+  images          AlgorithmImage[]
+  problemLinks    ProblemLink[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("algorithms")
+}
+
+model PersonalNote {
+  id               Int       @id @default(autoincrement())
+  keyInsights      Json      // string[] - your key learnings
+  personalTricks   Json      // string[] - mnemonics and shortcuts
+  mistakesMade     Json      // string[] - errors you made while learning
+  interviewTips    Json      // string[] - tips for interviews
+  generalNotes     String    @default("")
+  masteryLevel     String    @default("learning") // 'learning' | 'practicing' | 'confident' | 'interview-ready'
+  difficultyRating Int       @default(3) // 1-5 personal difficulty rating
+  lastReviewed     DateTime  @default(now())
+  algorithmId      String    @unique
+  algorithm        Algorithm @relation(fields: [algorithmId], references: [id], onDelete: Cascade)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("personal_notes")
+}
+
+model AlgorithmImage {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  category    String    // 'diagram' | 'notes' | 'example' | 'cheatsheet'
+  filename    String    // Original filename
+  url         String    // Public URL path (/images/graph/dfs-diagram.jpg)
+  algorithmId String
+  algorithm   Algorithm @relation(fields: [algorithmId], references: [id], onDelete: Cascade)
+  uploadedAt  DateTime  @default(now())
+
+  @@map("algorithm_images")
+}
+
+model ProblemLink {
+  id          Int       @id @default(autoincrement())
+  title       String
+  url         String
+  platform    String    // 'leetcode' | 'hackerrank' | 'codeforces' | 'geeksforgeeks'
+  difficulty  String    // 'easy' | 'medium' | 'hard'
+  description String
+  algorithmId String
+  algorithm   Algorithm @relation(fields: [algorithmId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+
+  @@map("problem_links")
+}

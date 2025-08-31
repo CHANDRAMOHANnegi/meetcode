@@ -1,0 +1,459 @@
+[
+  {
+    "id": "graph",
+    "title": "Graph Algorithms",
+    "description": "Master graph traversal, shortest paths, and connectivity algorithms",
+    "difficulty": "medium",
+    "estimatedTime": "2-3 weeks",
+    "subtopics": [
+      {
+        "id": "dfs",
+        "title": "Depth-First Search",
+        "difficulty": "easy",
+        "timeComplexity": "O(V + E)",
+        "spaceComplexity": "O(V)",
+        "category": "Traversal",
+        "problemsSolved": [
+          "Find connected components",
+          "Detect cycles in graphs",
+          "Path finding in mazes",
+          "Topological sorting",
+          "Check if two nodes are connected",
+          "Find all paths between nodes"
+        ],
+        "images": [
+          {
+            "id": "dfs-1",
+            "title": "DFS Tree Traversal",
+            "description": "Hand-drawn example of DFS on a binary tree showing the recursive call stack",
+            "category": "diagram",
+            "url": "/images/graph/dfs-tree-diagram.jpg"
+          },
+          {
+            "id": "dfs-2",
+            "title": "DFS vs BFS Comparison",
+            "description": "My handwritten notes comparing DFS and BFS with pros/cons",
+            "category": "notes",
+            "url": "/images/graph/dfs-bfs-comparison.jpg"
+          },
+          {
+            "id": "dfs-3",
+            "title": "DFS on Graph Example",
+            "description": "Step-by-step DFS execution on an undirected graph",
+            "category": "example",
+            "url": "/images/graph/dfs-graph-example.jpg"
+          }
+        ],
+        "problemLinks": [
+          {
+            "title": "Number of Islands",
+            "url": "https://leetcode.com/problems/number-of-islands/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Classic DFS problem for finding connected components in a 2D grid"
+          },
+          {
+            "title": "Path Sum",
+            "url": "https://leetcode.com/problems/path-sum/",
+            "platform": "leetcode",
+            "difficulty": "easy",
+            "description": "Tree DFS to find if path with target sum exists from root to leaf"
+          },
+          {
+            "title": "Course Schedule",
+            "url": "https://leetcode.com/problems/course-schedule/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Cycle detection in directed graph using DFS"
+          },
+          {
+            "title": "Clone Graph",
+            "url": "https://leetcode.com/problems/clone-graph/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Deep copy of graph using DFS traversal"
+          },
+          {
+            "title": "Graph Valid Tree",
+            "url": "https://leetcode.com/problems/graph-valid-tree/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Check if undirected graph forms a valid tree using DFS"
+          }
+        ],
+        "article": {
+          "overview": "Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. It uses a stack (either explicitly or through recursion) to keep track of vertices to visit next. DFS is particularly useful for problems involving connectivity, cycle detection, and path finding.",
+          "algorithm": "1. Start at a source vertex and mark it as visited\n2. For each unvisited neighbor of the current vertex:\n   - Recursively apply DFS to that neighbor\n3. When no unvisited neighbors remain, backtrack to the previous vertex\n4. Continue until all reachable vertices are visited\n5. For disconnected graphs, repeat from unvisited vertices",
+          "implementation": "`function dfs(graph: number[][], start: number): number[] {\n  const visited = new Set<number>();\n  const result: number[] = [];\n  \n  function dfsHelper(vertex: number) {\n    visited.add(vertex);\n    result.push(vertex);\n    \n    for (const neighbor of graph[vertex]) {\n      if (!visited.has(neighbor)) {\n        dfsHelper(neighbor);\n      }\n    }\n  }\n  \n  dfsHelper(start);\n  return result;\n}\n\n// Iterative version using explicit stack\nfunction dfsIterative(graph: number[][], start: number): number[] {\n  const visited = new Set<number>();\n  const stack = [start];\n  const result: number[] = [];\n  \n  while (stack.length > 0) {\n    const vertex = stack.pop()!;\n    \n    if (!visited.has(vertex)) {\n      visited.add(vertex);\n      result.push(vertex);\n      \n      // Add neighbors to stack (in reverse order for same traversal as recursive)\n      for (let i = graph[vertex].length - 1; i >= 0; i--) {\n        const neighbor = graph[vertex][i];\n        if (!visited.has(neighbor)) {\n          stack.push(neighbor);\n        }\n      }\n    }\n  }\n  \n  return result;\n}",
+          "examples": [
+            "Finding all nodes in a connected component",
+            "Checking if a path exists between two nodes",
+            "Detecting cycles in undirected graphs",
+            "Topological sorting in DAGs"
+          ],
+          "commonMistakes": [
+            "Forgetting to mark vertices as visited before recursive calls",
+            "Not handling disconnected graph components",
+            "Stack overflow due to deep recursion in large graphs",
+            "Modifying the graph while traversing"
+          ]
+        }
+      },
+      {
+        "id": "bfs",
+        "title": "Breadth-First Search",
+        "difficulty": "easy",
+        "timeComplexity": "O(V + E)",
+        "spaceComplexity": "O(V)",
+        "category": "Traversal",
+        "problemsSolved": [
+          "Find shortest path in unweighted graphs",
+          "Level-order traversal of trees",
+          "Find minimum steps to reach target",
+          "Check if graph is bipartite",
+          "Find all nodes at distance K"
+        ],
+        "images": [
+          {
+            "id": "bfs-1",
+            "title": "BFS Queue Visualization",
+            "description": "Step-by-step BFS execution showing queue operations and level-by-level traversal",
+            "category": "diagram",
+            "url": "/images/graph/bfs-queue-diagram.jpg"
+          },
+          {
+            "id": "bfs-2",
+            "title": "BFS Shortest Path",
+            "description": "Example showing how BFS finds shortest path in unweighted graph",
+            "category": "example",
+            "url": "/images/graph/bfs-shortest-path.jpg"
+          }
+        ],
+        "problemLinks": [
+          {
+            "title": "Binary Tree Level Order Traversal",
+            "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Classic BFS application for level-order traversal of binary tree"
+          },
+          {
+            "title": "Rotting Oranges",
+            "url": "https://leetcode.com/problems/rotting-oranges/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Multi-source BFS problem simulating rotting process"
+          },
+          {
+            "title": "Word Ladder",
+            "url": "https://leetcode.com/problems/word-ladder/",
+            "platform": "leetcode",
+            "difficulty": "hard",
+            "description": "Find shortest transformation sequence using BFS"
+          },
+          {
+            "title": "Minimum Knight Moves",
+            "url": "https://leetcode.com/problems/minimum-knight-moves/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Find minimum moves for knight to reach target using BFS"
+          }
+        ],
+        "article": {
+          "overview": "Breadth-First Search (BFS) explores vertices level by level, visiting all neighbors of a vertex before moving to vertices at the next level. It uses a queue to maintain the order of exploration and guarantees the shortest path in unweighted graphs.",
+          "algorithm": "1. Start at source vertex, add to queue and mark as visited\n2. While queue is not empty:\n   - Dequeue a vertex from front of queue\n   - Process the current vertex\n   - For each unvisited neighbor:\n     - Mark neighbor as visited\n     - Add neighbor to back of queue\n3. Continue until queue is empty or target is found",
+          "implementation": "`function bfs(graph: number[][], start: number): number[] {\n  const visited = new Set<number>();\n  const queue: number[] = [start];\n  const result: number[] = [];\n  \n  visited.add(start);\n  \n  while (queue.length > 0) {\n    const vertex = queue.shift()!;\n    result.push(vertex);\n    \n    for (const neighbor of graph[vertex]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push(neighbor);\n      }\n    }\n  }\n  \n  return result;\n}\n\n// BFS for shortest path\nfunction bfsShortestPath(graph: number[][], start: number, target: number): number[] {\n  const visited = new Set<number>();\n  const queue: Array<{vertex: number, path: number[]}> = [{vertex: start, path: [start]}];\n  \n  visited.add(start);\n  \n  while (queue.length > 0) {\n    const {vertex, path} = queue.shift()!;\n    \n    if (vertex === target) {\n      return path;\n    }\n    \n    for (const neighbor of graph[vertex]) {\n      if (!visited.has(neighbor)) {\n        visited.add(neighbor);\n        queue.push({vertex: neighbor, path: [...path, neighbor]});\n      }\n    }\n  }\n  \n  return []; // No path found\n}`",
+          "examples": [
+            "Finding shortest path in unweighted graph",
+            "Level-order tree traversal",
+            "Finding minimum number of steps in grid problems",
+            "Checking if graph is bipartite"
+          ],
+          "commonMistakes": [
+            "Using stack instead of queue (becomes DFS)",
+            "Not marking vertices as visited when enqueueing",
+            "Forgetting to handle disconnected components",
+            "Not checking if target is found before processing neighbors"
+          ]
+        }
+      },
+      {
+        "id": "dijkstra",
+        "title": "Dijkstra's Algorithm",
+        "difficulty": "medium",
+        "timeComplexity": "O((V + E) log V)",
+        "spaceComplexity": "O(V)",
+        "category": "Shortest Path",
+        "problemsSolved": [
+          "Find shortest path in weighted graphs",
+          "GPS navigation systems",
+          "Network routing protocols",
+          "Flight connection optimization",
+          "Social network analysis"
+        ],
+        "images": [
+          {
+            "id": "dijkstra-1",
+            "title": "Dijkstra Step-by-Step",
+            "description": "Manual execution of Dijkstra's algorithm with priority queue visualization",
+            "category": "example",
+            "url": "/images/graph/dijkstra-steps.jpg"
+          },
+          {
+            "id": "dijkstra-2",
+            "title": "Priority Queue Notes",
+            "description": "My notes on how priority queue works in Dijkstra's algorithm",
+            "category": "notes",
+            "url": "/images/graph/dijkstra-priority-queue.jpg"
+          }
+        ],
+        "problemLinks": [
+          {
+            "title": "Network Delay Time",
+            "url": "https://leetcode.com/problems/network-delay-time/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Classic Dijkstra shortest path problem with signal transmission"
+          },
+          {
+            "title": "Cheapest Flights Within K Stops",
+            "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Modified Dijkstra with constraint on number of stops"
+          },
+          {
+            "title": "Path with Maximum Probability",
+            "url": "https://leetcode.com/problems/path-with-maximum-probability/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Dijkstra variant for maximum probability path"
+          }
+        ],
+        "article": {
+          "overview": "Dijkstra's algorithm finds the shortest path from a source vertex to all other vertices in a weighted graph with non-negative edge weights. It uses a greedy approach with a priority queue to always process the vertex with the minimum distance first.",
+          "algorithm": "1. Initialize distances to all vertices as infinity, except source (distance 0)\n2. Add source vertex to priority queue\n3. While priority queue is not empty:\n   - Extract vertex with minimum distance\n   - For each neighbor of current vertex:\n     - Calculate new distance = current distance + edge weight\n     - If new distance < neighbor's current distance:\n       - Update neighbor's distance\n       - Add neighbor to priority queue\n4. Continue until all vertices are processed",
+          "implementation": "`interface Edge {\n  to: number;\n  weight: number;\n}\n\nfunction dijkstra(graph: Edge[][], start: number): number[] {\n  const distances = new Array(graph.length).fill(Infinity);\n  const pq = [{vertex: start, distance: 0}];\n  distances[start] = 0;\n  \n  while (pq.length > 0) {\n    // Sort to get minimum distance (use proper heap in production)\n    pq.sort((a, b) => a.distance - b.distance);\n    const {vertex, distance} = pq.shift()!;\n    \n    // Skip if we've found a better path already\n    if (distance > distances[vertex]) continue;\n    \n    for (const edge of graph[vertex]) {\n      const newDist = distances[vertex] + edge.weight;\n      if (newDist < distances[edge.to]) {\n        distances[edge.to] = newDist;\n        pq.push({vertex: edge.to, distance: newDist});\n      }\n    }\n  }\n  \n  return distances;\n}\n\n// With path reconstruction\nfunction dijkstraWithPath(graph: Edge[][], start: number, target: number): {distance: number, path: number[]} {\n  const distances = new Array(graph.length).fill(Infinity);\n  const previous = new Array(graph.length).fill(-1);\n  const pq = [{vertex: start, distance: 0}];\n  \n  distances[start] = 0;\n  \n  while (pq.length > 0) {\n    pq.sort((a, b) => a.distance - b.distance);\n    const {vertex, distance} = pq.shift()!;\n    \n    if (vertex === target) break;\n    if (distance > distances[vertex]) continue;\n    \n    for (const edge of graph[vertex]) {\n      const newDist = distances[vertex] + edge.weight;\n      if (newDist < distances[edge.to]) {\n        distances[edge.to] = newDist;\n        previous[edge.to] = vertex;\n        pq.push({vertex: edge.to, distance: newDist});\n      }\n    }\n  }\n  \n  // Reconstruct path\n  const path: number[] = [];\n  let current = target;\n  while (current !== -1) {\n    path.unshift(current);\n    current = previous[current];\n  }\n  \n  return {\n    distance: distances[target],\n    path: distances[target] === Infinity ? [] : path\n  };\n}`",
+          "examples": [
+            "Finding shortest route in GPS navigation",
+            "Minimum cost to reach all nodes in network",
+            "Shortest path in weighted social networks",
+            "Optimal resource allocation problems"
+          ],
+          "commonMistakes": [
+            "Using with negative edge weights (use Bellman-Ford instead)",
+            "Not using priority queue (leads to incorrect results)",
+            "Processing same vertex multiple times without distance check",
+            "Forgetting to handle unreachable vertices"
+          ]
+        }
+      },
+      {
+        "id": "union-find",
+        "title": "Union-Find (Disjoint Set)",
+        "difficulty": "medium",
+        "timeComplexity": "O(α(n)) per operation",
+        "spaceComplexity": "O(n)",
+        "category": "Connectivity",
+        "problemsSolved": [
+          "Detect cycles in undirected graphs",
+          "Find connected components dynamically",
+          "Kruskal's MST algorithm",
+          "Dynamic connectivity queries",
+          "Percolation problems"
+        ],
+        "images": [
+          {
+            "id": "union-find-1",
+            "title": "Union-Find Tree Structure",
+            "description": "Visualization of parent pointers and path compression",
+            "category": "diagram",
+            "url": "/images/graph/union-find-structure.jpg"
+          },
+          {
+            "id": "union-find-2",
+            "title": "Path Compression Example",
+            "description": "Before and after path compression optimization",
+            "category": "example",
+            "url": "/images/graph/union-find-compression.jpg"
+          }
+        ],
+        "problemLinks": [
+          {
+            "title": "Number of Connected Components",
+            "url": "https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Count connected components using Union-Find"
+          },
+          {
+            "title": "Redundant Connection",
+            "url": "https://leetcode.com/problems/redundant-connection/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Find edge that creates cycle using Union-Find"
+          },
+          {
+            "title": "Accounts Merge",
+            "url": "https://leetcode.com/problems/accounts-merge/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Group accounts by common emails using Union-Find"
+          }
+        ],
+        "article": {
+          "overview": "Union-Find (Disjoint Set Union) is a data structure that efficiently handles dynamic connectivity queries. It supports two main operations: union (connect two elements) and find (determine which set an element belongs to). With optimizations, operations run in nearly constant time.",
+          "algorithm": "1. Initialize: Each element is its own parent (separate sets)\n2. Find(x): Follow parent pointers to root, apply path compression\n3. Union(x, y): Find roots of x and y, connect smaller tree to larger (union by rank)\n4. Path Compression: Make all nodes on path point directly to root\n5. Union by Rank: Always attach smaller tree under root of larger tree",
+          "implementation": "`class UnionFind {\n  private parent: number[];\n  private rank: number[];\n  private components: number;\n  \n  constructor(n: number) {\n    this.parent = Array.from({length: n}, (_, i) => i);\n    this.rank = new Array(n).fill(0);\n    this.components = n;\n  }\n  \n  find(x: number): number {\n    if (this.parent[x] !== x) {\n      // Path compression: make parent point directly to root\n      this.parent[x] = this.find(this.parent[x]);\n    }\n    return this.parent[x];\n  }\n  \n  union(x: number, y: number): boolean {\n    const rootX = this.find(x);\n    const rootY = this.find(y);\n    \n    if (rootX === rootY) {\n      return false; // Already connected\n    }\n    \n    // Union by rank: attach smaller tree under root of larger tree\n    if (this.rank[rootX] < this.rank[rootY]) {\n      this.parent[rootX] = rootY;\n    } else if (this.rank[rootX] > this.rank[rootY]) {\n      this.parent[rootY] = rootX;\n    } else {\n      this.parent[rootY] = rootX;\n      this.rank[rootX]++;\n    }\n    \n    this.components--;\n    return true;\n  }\n  \n  connected(x: number, y: number): boolean {\n    return this.find(x) === this.find(y);\n  }\n  \n  getComponents(): number {\n    return this.components;\n  }\n}`",
+          "examples": [
+            "Detecting cycles in Kruskal's MST algorithm",
+            "Dynamic connectivity in social networks",
+            "Percolation threshold in physics simulations",
+            "Maze generation algorithms"
+          ],
+          "commonMistakes": [
+            "Forgetting path compression (leads to O(n) operations)",
+            "Not using union by rank (creates unbalanced trees)",
+            "Confusing union and find operations",
+            "Not handling edge case where elements are already connected"
+          ]
+        }
+      },
+      {
+        "id": "topological-sort",
+        "title": "Topological Sort",
+        "difficulty": "medium",
+        "timeComplexity": "O(V + E)",
+        "spaceComplexity": "O(V)",
+        "category": "Ordering",
+        "problemsSolved": [
+          "Course scheduling with prerequisites",
+          "Build dependency resolution",
+          "Task scheduling with dependencies",
+          "Compile order determination",
+          "Spreadsheet formula evaluation order"
+        ],
+        "images": [
+          {
+            "id": "topo-1",
+            "title": "Topological Sort Example",
+            "description": "DAG with course prerequisites and their topological ordering",
+            "category": "example",
+            "url": "/images/graph/topological-sort-example.jpg"
+          },
+          {
+            "id": "topo-2",
+            "title": "Kahn's Algorithm Steps",
+            "description": "Step-by-step execution of Kahn's algorithm with in-degree calculation",
+            "category": "diagram",
+            "url": "/images/graph/kahns-algorithm.jpg"
+          }
+        ],
+        "problemLinks": [
+          {
+            "title": "Course Schedule",
+            "url": "https://leetcode.com/problems/course-schedule/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Check if courses can be finished given prerequisites"
+          },
+          {
+            "title": "Course Schedule II",
+            "url": "https://leetcode.com/problems/course-schedule-ii/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Return the ordering of courses to take"
+          },
+          {
+            "title": "Alien Dictionary",
+            "url": "https://leetcode.com/problems/alien-dictionary/",
+            "platform": "leetcode",
+            "difficulty": "hard",
+            "description": "Derive character ordering from sorted alien words"
+          }
+        ],
+        "article": {
+          "overview": "Topological sorting produces a linear ordering of vertices in a Directed Acyclic Graph (DAG) such that for every directed edge (u,v), vertex u comes before vertex v in the ordering. It's essential for scheduling tasks with dependencies.",
+          "algorithm": "DFS Approach:\n1. Perform DFS on the graph\n2. When finishing a vertex (all neighbors processed), add to front of result\n3. The final ordering is a valid topological sort\n\nKahn's Algorithm:\n1. Calculate in-degree for all vertices\n2. Add all vertices with in-degree 0 to queue\n3. While queue is not empty:\n   - Remove vertex, add to result\n   - Decrease in-degree of all neighbors\n   - Add neighbors with in-degree 0 to queue",
+          "implementation": "`// DFS-based topological sort\nfunction topologicalSortDFS(graph: number[][]): number[] {\n  const visited = new Set<number>();\n  const result: number[] = [];\n  \n  function dfs(vertex: number) {\n    visited.add(vertex);\n    \n    for (const neighbor of graph[vertex]) {\n      if (!visited.has(neighbor)) {\n        dfs(neighbor);\n      }\n    }\n    \n    result.unshift(vertex); // Add to front when done\n  }\n  \n  for (let i = 0; i < graph.length; i++) {\n    if (!visited.has(i)) {\n      dfs(i);\n    }\n  }\n  \n  return result;\n}\n\n// Kahn's algorithm\nfunction topologicalSortKahn(graph: number[][]): number[] {\n  const inDegree = new Array(graph.length).fill(0);\n  const result: number[] = [];\n  const queue: number[] = [];\n  \n  // Calculate in-degrees\n  for (let i = 0; i < graph.length; i++) {\n    for (const neighbor of graph[i]) {\n      inDegree[neighbor]++;\n    }\n  }\n  \n  // Add vertices with in-degree 0 to queue\n  for (let i = 0; i < inDegree.length; i++) {\n    if (inDegree[i] === 0) {\n      queue.push(i);\n    }\n  }\n  \n  while (queue.length > 0) {\n    const vertex = queue.shift()!;\n    result.push(vertex);\n    \n    for (const neighbor of graph[vertex]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n  \n  // Check for cycles\n  return result.length === graph.length ? result : [];\n}`",
+          "examples": [
+            "Course prerequisite scheduling",
+            "Build system dependency resolution",
+            "Spreadsheet cell calculation order",
+            "Project task scheduling"
+          ],
+          "commonMistakes": [
+            "Applying to graphs with cycles (only works on DAGs)",
+            "Not checking if graph is acyclic after sorting",
+            "Confusing DFS finish time with start time",
+            "Incorrect in-degree calculation in Kahn's algorithm"
+          ]
+        }
+      },
+      {
+        "id": "bipartite",
+        "title": "Bipartite Graph Check",
+        "difficulty": "medium",
+        "timeComplexity": "O(V + E)",
+        "spaceComplexity": "O(V)",
+        "category": "Graph Properties",
+        "problemsSolved": [
+          "Check if graph can be 2-colored",
+          "Matching problems in bipartite graphs",
+          "Conflict resolution (two groups)",
+          "Resource allocation problems",
+          "Social network analysis"
+        ],
+        "images": [
+          {
+            "id": "bipartite-1",
+            "title": "Bipartite Graph Example",
+            "description": "Example of bipartite graph with two distinct sets",
+            "category": "diagram",
+            "url": "/images/graph/bipartite-example.jpg"
+          },
+          {
+            "id": "bipartite-2",
+            "title": "Graph Coloring Notes",
+            "description": "My notes on 2-coloring approach for bipartite checking",
+            "category": "notes",
+            "url": "/images/graph/bipartite-coloring.jpg"
+          }
+        ],
+        "problemLinks": [
+          {
+            "title": "Is Graph Bipartite?",
+            "url": "https://leetcode.com/problems/is-graph-bipartite/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Check if graph can be colored with two colors"
+          },
+          {
+            "title": "Possible Bipartition",
+            "url": "https://leetcode.com/problems/possible-bipartition/",
+            "platform": "leetcode",
+            "difficulty": "medium",
+            "description": "Check if people can be divided into two groups based on dislikes"
+          }
+        ],
+        "article": {
+          "overview": "A bipartite graph is a graph whose vertices can be divided into two disjoint sets such that no two vertices within the same set are adjacent. This is equivalent to checking if the graph can be 2-colored. We can use BFS or DFS with coloring to determine if a graph is bipartite.",
+          "algorithm": "Using BFS with 2-coloring:\n1. Choose any unvisited vertex and color it with color 0\n2. Add it to queue\n3. While queue is not empty:\n   - Dequeue vertex\n   - For each neighbor:\n     - If neighbor is uncolored: color with opposite color, add to queue\n     - If neighbor has same color: graph is not bipartite\n4. Repeat for all disconnected components",
+          "implementation": "`function isBipartite(graph: number[][]): boolean {\n  const color = new Array(graph.length).fill(-1);\n  \n  for (let start = 0; start < graph.length; start++) {\n    if (color[start] === -1) {\n      // BFS for each component\n      const queue = [start];\n      color[start] = 0;\n      \n      while (queue.length > 0) {\n        const vertex = queue.shift()!;\n        \n        for (const neighbor of graph[vertex]) {\n          if (color[neighbor] === -1) {\n            // Color with opposite color\n            color[neighbor] = 1 - color[vertex];\n            queue.push(neighbor);\n          } else if (color[neighbor] === color[vertex]) {\n            // Same color - not bipartite\n            return false;\n          }\n        }\n      }\n    }\n  }\n  \n  return true;\n}\n\n// DFS version\nfunction isBipartiteDFS(graph: number[][]): boolean {\n  const color = new Array(graph.length).fill(-1);\n  \n  function dfs(vertex: number, c: number): boolean {\n    color[vertex] = c;\n    \n    for (const neighbor of graph[vertex]) {\n      if (color[neighbor] === -1) {\n        if (!dfs(neighbor, 1 - c)) {\n          return false;\n        }\n      } else if (color[neighbor] === color[vertex]) {\n        return false;\n      }\n    }\n    \n    return true;\n  }\n  \n  for (let i = 0; i < graph.length; i++) {\n    if (color[i] === -1) {\n      if (!dfs(i, 0)) {\n        return false;\n      }\n    }\n  }\n  \n  return true;\n}`",
+          "examples": [
+            "Job assignment (workers and tasks)",
+            "Conflict resolution (two opposing groups)",
+            "Matching problems in dating apps",
+            "Resource allocation between two categories"
+          ],
+          "commonMistakes": [
+            "Not handling disconnected components",
+            "Forgetting to initialize colors properly",
+            "Using wrong coloring logic (not alternating)",
+            "Not returning false immediately when conflict found"
+          ]
+        }
+      }
+    ]
+  }
+]
